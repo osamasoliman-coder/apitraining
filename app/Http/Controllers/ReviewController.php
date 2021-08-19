@@ -7,6 +7,7 @@ use App\Http\Resources\ReviewResource;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -61,26 +62,23 @@ class ReviewController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Review $review)
+
+    public function update(Request $request, $product_id, $review_id)
     {
-        //
+        $review = Review::find( $review_id );
+        $product = Product::find( $product_id );
+        $review->update($request->all());
+        return response([
+            'data' => new ReviewResource($review)
+        ],Response::HTTP_CREATED);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Review $review)
+
+    public function destroy($product_id, $review_id)
     {
-        //
+        $product = Product::find( $product_id );
+        $review = Review::find( $review_id );
+        $review->delete();
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }
