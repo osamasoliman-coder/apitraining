@@ -15,21 +15,13 @@ class ProductController extends Controller
     public function __construct(){
         $this->middleware('auth:api')->except('index','show');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     */
+
     public function index()
     {
         return  ProductCollection::collection(Product::paginate(20));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //
@@ -50,23 +42,13 @@ class ProductController extends Controller
         ],Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return ProductResource|\Illuminate\Http\Response
-     */
+
     public function show(Product $product)
     {
         return new ProductResource($product);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Product $product)
     {
         //
